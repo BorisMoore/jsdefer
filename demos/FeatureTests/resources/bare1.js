@@ -1,0 +1,1 @@
+window.testloaded.bare1 = "";

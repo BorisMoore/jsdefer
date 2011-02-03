@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
+	<script src="../consoleTest.js" type="text/javascript"></script>
+
+	<script src="../../../jquery.defer.js" type="text/javascript"></script>
+	<script src="../resources/myScriptDefs.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		(function() { 
+			$.defer( "../resources/folder1/c.js", {
+					myVal: "sendC",  
+					readyName: "c" 
+				})
+				.done( log );
+
+			$.defer.a({ 
+					myVal: "sendA",
+					delayDomReady: true 
+				})
+				.done( log );
+		}());
+	</script>
+</head>
+<body>
+
+	<b>Results:</b> <span id="results"></span>
+
+	<script type="text/javascript">
+		(function() { 
+			$.ready.a
+				.done( function( result ){ 
+					log( "a: " + result );
+				});
+
+			$.ready.c
+				.done( function( result ){ 
+					log( "c: " + result );
+				});
+
+			$.ready.e
+				.done( function( result ){ 
+					log( "e: " + result );
+				});
+
+			$.when( 
+					$.ready.a, 
+					$.ready.c, 
+					$.ready.e, 
+					$.ready
+				).done( function( result0, result1, result2 ){ 
+					log( "a, c, e and domReady: " + result0 + ", " + result1 + ", " +  result2 );
+				});
+		}());
+
+	</script>
+</body>
+</html>
+
