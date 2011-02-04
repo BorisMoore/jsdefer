@@ -1,17 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-	
-	<!--
-	DeferJS does not require jQuery. But can optionally include jQuery, in which case DeferJS will 
-	become equivalent to jquery.defer.js and will create a jQuery plugin.
-	-->	
-	<!--
-	<script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
-	-->	
-	<script src="../../../DeferJS.js" type="text/javascript"></script>
-	<script src="../consoleTest.js" type="text/javascript"></script>
 
+<!--
+	DeferJS.js is the jQuery-independent version of DeferJS.
+-->
+	<script src="../../../DeferJS.js" type="text/javascript"></script>
+
+	<script src="../consoleTest.js" type="text/javascript"></script>
 	<script type="text/javascript">
 
 		$.defer( "../resources/folder1/a.js", {
@@ -28,4 +24,3 @@
 
 </body>
 </html>
-

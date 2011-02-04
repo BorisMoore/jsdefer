@@ -1,8 +1,11 @@
+// This is DeferJS.js: The jQuery-independent version of DeferJS
+// (If you want the jQuery plugin version of DeferJS, use jquery.defer.js).
+
 window.deferJs || window.jQuery && jQuery.defer || (function ( window, undefined ) {
 
 var $, document = window.document,
 	anchor = document.createElement("a"),
-	deferSettings, defer, ready, readyList,
+	deferSettings, defer, deferDef, ready, readyList,
 	scriptByUrl = {},
 	loadingScripts = [],
 	loadingSubScripts,
@@ -11,6 +14,8 @@ var $, document = window.document,
 	getAjax;
 	
 if ( window.jQuery ) {
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// jQuery is loaded, so make $ the jQuery object
 	$ = jQuery;
 
 	// Workaround, to expose domReady promise. (Only needed because the Dom Ready promise is not exposed by core).
@@ -19,6 +24,14 @@ if ( window.jQuery ) {
 	});
 
 } else {
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// jQuery is not loaded. Make $ the deferJS object
+	
+	// Use a 'clone' of the implementation of Deferred from jQuery-1.5.js
+	// to provide identical Deferred APIs and behavior to jQuery.
+	
+	// Also provide simplified support for $.extend, DomReady and AJAX x-domain requests, 
+	// since we can't use jQuery implementations of those...
 	
 	window.deferJs = window.$ = $ = function ( cb ) {
 		return readyList.done( cb );
@@ -241,6 +254,10 @@ if ( window.jQuery ) {
 	domReady();	
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// The following code is identical to the corresponding code in jquery.defer.js
+
 function absUrl( basePath, url ) {
 	if ( url.indexOf( "://") === -1 ) {
 		url = basePath + url;
@@ -358,16 +375,17 @@ $.extend({
 			asyncLoad.reject( "fail", url );
 		}
 
-		function loadDependencies( depends, promises, cb ) {
+		function loadDependencies( newDepends, promises, cb ) {
 			promises = promises || [];
-			var i = depends && depends.length;
+			var i = newDepends && newDepends.length;
 			while ( i-- ) {
-				promises.push( defer( depends[ i ], options, url ));
+				promises.push( defer( newDepends[ i ], options, url ));
 			}
 			$.when.apply( $, promises ).fail( reject ).done( cb || run );
 		}
 
 		function getScript() {
+			// Use $.ajax if jQuery is loaded. Otherwised use our stripped down getAjax call.
 			return ($.ajax || getAjax)(
 				{
 					url: loadUrl,
@@ -392,6 +410,14 @@ $.extend({
 							reject();
 						}
 						// Non-wrapped script
+						if ( jQuery && $ !== jQuery ) {
+							// Special case: jQuery has been loaded dynamically by DeferJS, so switch to plugin version of DeferJS
+							$ = jQuery.extend({
+								defer: defer,
+								deferSettings: deferSettings,
+								deferDef: deferDef
+							});
+						}
 						run();
 						return;
 					}
@@ -399,7 +425,7 @@ $.extend({
 					runCb = scriptDef.runCb = deferRunSettings.run;
 
 					if ( deferRunSettings.def ) {
-						$.deferDef( deferRunSettings.def, url );
+						deferDef( deferRunSettings.def, url );
 					}
 
 					depends = makeArray( deferRunSettings.depends ) || [];
@@ -532,6 +558,7 @@ window.$deferRun = function ( run, settings ) {
 
 deferSettings = $.deferSettings;
 defer = $.defer;
+deferDef = $.deferDef;
 ready = $.ready;
 	
 readyList = $.Deferred();

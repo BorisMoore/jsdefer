@@ -1,3 +1,6 @@
+// This is jquery.defer.js: The jQuery plugin version of DeferJS
+// (If you want the jQuery-independent version of DeferJS, use DeferJS.js).
+
 (function( $, window, undefined ) {
 
 var document = window.document,
@@ -299,10 +302,11 @@ deferSettings = $.deferSettings;
 defer = $.defer;
 ready = $.ready;
 
-// Workaround, to expose domReady promise
-// (only needed because the Dom Ready promise is not exposed by core).
 readyDefer = $.Deferred();
 readyDefer.promise( ready );
+
+// Workaround, to expose domReady promise
+// (only needed because the Dom Ready promise is not exposed by core).
 $( function() {
 	readyDefer.resolve();
 });
