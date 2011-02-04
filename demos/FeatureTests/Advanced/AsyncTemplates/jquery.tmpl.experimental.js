@@ -133,12 +133,12 @@
 		// Return wrapped set of template items, obtained by rendering template against data.
 		tmpl: function( tmpl, data, options, parentItem ) {
 
-			var asyncRender = jQuery.Deferred();
-			
-			jQuery.when( maybeDeferred( tmpl ), maybeDeferred( data )).done( function( theTmpl, theData ) { 
+			var topLevel = !parentItem; 
+
+			function render( theTmpl, theData ) { 
 				tmpl = theTmpl;
 				data = theData;
-				var ret, topLevel = !parentItem;
+				var ret;
 				if ( topLevel ) {
 					// This is a top-level tmpl call (not from a nested template using {{tmpl}})
 					parentItem = topTmplItem;
@@ -171,12 +171,28 @@
 					}) :
 					[ newTmplItem( options, parentItem, tmpl, data ) ];
 
-				asyncRender.resolve( topLevel ? 
-					jQuery( build( parentItem, null, ret )) : 
-					ret
-				); 
-			});
-			return asyncRender.promise( jQuery() );
+				if ( topLevel ) {
+					asyncRender.resolve( jQuery( build( parentItem, null, ret )));
+				} else {	 
+					return ret;
+				}; 
+			}
+			
+			if ( topLevel ) {
+				asyncRender = jQuery.Deferred();
+		
+				jQuery.when( maybeDeferred( tmpl ), maybeDeferred( data )).done( render );
+
+				return asyncRender.promise( jQuery() );
+			} else {
+				try {
+					tmpl = jQuery.deferDef( tmpl.substr( 1 )).result;
+				} 
+				catch(e) {
+					throw "Error: Nested remote template not loaded."
+				}
+				return render( tmpl, data );
+			}	
 		},
 
 		// Return rendered template item for an element.
@@ -220,7 +236,7 @@
 			}
 			// Return named compiled template
 			return name ? (typeof name !== "string" ? jQuery.template( null, name ): 
-				(jQuery.template[name] || 
+				name[0] === "@" ? name : (jQuery.template[name] || 
 					// If not in map, treat as a selector. (If integrated with core, use quickExpr.exec) 
 					jQuery.template( null, htmlExpr.test( name ) ? name : jQuery( name )))) : null; 
 		},
