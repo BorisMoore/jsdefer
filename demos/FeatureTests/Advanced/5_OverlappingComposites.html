@@ -29,7 +29,8 @@
 		
 		$.defer.dcf( {
 				myVal: "valDCF"
-			}).done( function( components ) {
+			})
+			.done( function( components ) {
 				log( "DCF done" );
 				log( components[0] );
 				log( components[1] );
@@ -38,28 +39,32 @@
 
 		$.defer( "../resources/folder2/c.js", {
 				myVal: "valC"
-			}).done( function( result ) {
+			})
+			.done( function( result ) {
 				log( "C done" );
 				log( result );
 			});
 
 		$.defer( "../resources/folder2/d.js", {
 				myVal: "valD"
-			}).done( function( result ) {
+			})
+			.done( function( result ) {
 				log( "D done" );
 				log( result );
 			});
 
 		$.defer( "../resources/folder2/d.js", {
 				myVal: "valD2"
-			}).done( function( result ) {
+			})
+			.done( function( result ) {
 				log( "D done" );
 				log( result );
 			});
 
 		$.defer( "../resources/folder2/compositeFED.js", {
 				myVal: "valFED"
-			}).done( function( components ) {
+			})
+			.done( function( components ) {
 				log( "FED done" );
 				log( components[0] );
 				log( components[1] );

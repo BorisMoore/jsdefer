@@ -10,14 +10,15 @@
 
 		$.deferDef({
 			richTmpls: {
-				url: "templatesAndData/richTmpls.js",
+				url: "../../templatesAndData/richTmpls.js",
 				contains: ["outer", "inner"]
 			}
 		});
 
-		$.defer.richTmpls().done( function() {
-			$.tmpl( "@outer", "@templatesAndData/myRichData.js" ).appendTo( "ul" );
-		});
+		$.defer.richTmpls()
+			.done( function() {
+				$.tmpl( "@outer", "@../../templatesAndData/myRichData.js" ).appendTo( "ul" );
+			});
 
 
 	</script>

@@ -7,10 +7,10 @@
 	<script type="text/javascript">
 		$.defer( "jquery.tmpl.experimental.js", { bare: true, delayDomReady: true } );
 
-		$( function() { 
-			$.tmpl( 
-				"@templatesAndData/myTmpl.js", 
-				"@templatesAndData/myData.js" 
+		$( function() {
+			$.tmpl(
+				"@../../templatesAndData/myTmpl.js",
+				"@../../templatesAndData/myData.js"
 			).appendTo( "ul" );
 		});
 	</script>

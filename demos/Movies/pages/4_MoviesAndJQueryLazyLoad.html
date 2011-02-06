@@ -4,16 +4,16 @@
 	<title>jQuery + OData + Netflix Catalog API</title>
 	<link href="../resources/css/jquery-ui-1.8.1.custom.css" rel="stylesheet" type="text/css" />
 	<link href="../resources/css/movies.css" rel="stylesheet" type="text/css" />
-	<script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
-	<script src="../../../jquery.defer.js" type="text/javascript"></script>
+
+	<script src="../../../DeferJS.js" type="text/javascript"></script>
 	
 	<script src="../resources/jQueryUI/jQueryUiDefs.js" type="text/javascript"></script>
 
 	<script src="../resources/movieAppDefs.js" type="text/javascript"></script>
-		
+
 	<script type="text/javascript">
 		var movieApp;
-		
+
 		function getMoviesData( genre, pageSize, index ) {
 			index = index || 1;
 
@@ -30,36 +30,37 @@
 			});
 		}
 
-		$( function() {
+		function loadAppAndData() {
+			var initGenre = "Cartoons", initPageSize = 4;
 
-			$("#loadApp").click( function() {
-
-				var initGenre = "Cartoons", initPageSize = 4;
-
-				$.when( 
+			$.when( 
 					$.defer.movieApp({ 
 						pageSize: initPageSize 
 					}),
 					getMoviesData( initGenre, initPageSize ), 
 					$.defer.datePicker(),
-					$.defer.pager(),
-					$.ready 
+					$.defer.pager()
 				)
 				.done( function( app, data ) {
 					movieApp = app;
 					movieApp.init( data[0], initGenre, initPageSize );
 				});
+		}
 
-			});
+		function loadJQueryAndMoviesApp() {
+			$.defer( "http://code.jquery.com/jquery.js", {
+					bare: true 
+				})
+				.done( loadAppAndData );
+		}
 
-		});
 	</script>
 </head>
 <body>
 <div id="pageBody">
 	<h1>Netflix: Book a Movie...</h1>
 
-	<input type="button" id="loadApp" title="Load Movies App" value="Load Movies App" />
+	<input type="button" id="loadApp" onclick="loadJQueryAndMoviesApp()" title="Load jQuery, and the Movies App" value="Load jQuery, and the Movies App" />
 	
 	<ul id="genres">
 		<li class="selected">Cartoons</li>

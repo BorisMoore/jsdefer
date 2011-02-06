@@ -7,12 +7,12 @@
 	<script type="text/javascript">
 
 		$.when(
-				$.defer( "../resources/templateAndData/myTmpl.js" ),
-				$.defer( "../resources/templateAndData/myData.js" ),
+				$.defer( "../templatesAndData/myTmpl.js" ),
+				$.defer( "../templatesAndData/myData.js" ),
 				$.defer( "http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js", { bare: true } ),
 				$.ready
 			)
-			.done( function( tmpl, data ) { 
+			.done( function( tmpl, data ) {
 				$.tmpl( tmpl, data )
 					.appendTo( "ul" );
 			});

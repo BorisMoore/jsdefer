@@ -1,5 +1,13 @@
 ﻿$.deferDef({
-	tmpl: "jQueryPlugins/templates/jquery.tmpl.js", // Could point to CDN, but this is not currently wrapped.
+	jQuery: {
+		bare: true,
+		url: "http://code.jquery.com/jquery.js",
+		loaded: "window.jQuery"
+	},
+	tmpl: {
+		url: "jQueryPlugins/templates/jquery.tmpl.js",
+		depends: "jQuery"
+	},
 	tmplPlus: {
 		bare: true,
 		url: "jQueryPlugins/templates/jquery.tmplPlus.js",

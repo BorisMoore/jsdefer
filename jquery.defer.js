@@ -62,15 +62,18 @@ $.extend({
 			delayDomReady = options.delayDomReady || deferSettings.delayDomReady,
 			min = options.min || deferSettings.min,
 			scriptDef = getScriptDef( scriptName, basePath ),
-			bare = options.bare || scriptDef.bare,
 			url = scriptDef.url,
 			loadUrl = ( min && scriptDef.minUrl ) || scriptDef.url,
 
-			contains = scriptDef.contains,
+			settings = $.extend( scriptDef, options ),
+			bare = settings.bare,
+			contains = settings.contains,
+			loaded = settings.loaded,
+			depends = settings.depends,
+			multiple = settings.multiple,
+			
 			parentPromise = scriptDef.prntPrms,
 			promise = scriptDef.promise,
-			depends = scriptDef.depends,
-			multiple = scriptDef.multiple,
 			runCb, thisPromise, hasRun, hasRunPromise;
 
 		function run() {
@@ -138,46 +141,46 @@ $.extend({
 
 		function getScript() {
 			return $.ajax({
-				url: loadUrl,
-				dataType: "script",
-				timeout: options.timeout,
-				cache: !options.noCache,
-				crossDomain: true // Force regular script insertion, rather than XMLHTTP plus script insertion in document, for easier debugging.
-			})
+					url: loadUrl,
+					dataType: "script",
+					timeout: settings.timeout,
+					cache: !settings.noCache,
+					crossDomain: true // Force regular script insertion, rather than XMLHTTP plus script insertion in document, for easier debugging.
+				})
 
-			.fail( reject )
+				.fail( reject )
 
-			// readyStateChange complete has happened
-			.done( function() {
+				// readyStateChange complete has happened
+				.done( function() {
 
-				var deferRunSettings = bare ? 0 : loadingScripts.shift();
+					var deferRunSettings = bare ? 0 : loadingScripts.shift();
 
-				if ( !deferRunSettings ) {
-					if ( !bare ) {
-						// 404 or similar - no script got loaded for this url.
-						// This only works for IE. For Chrome and FF, neither done nor fail cb of $.ajax get called for 404.
-						// Set timeout to get error for all browsers.
-						reject();
+					if ( !deferRunSettings ) {
+						if ( !bare ) {
+							// 404 or similar - no script got loaded for this url.
+							// This only works for IE. For Chrome and FF, neither done nor fail cb of $.ajax get called for 404.
+							// Set timeout to get error for all browsers.
+							reject();
+						}
+						// Non-wrapped script
+						run();
+						return;
 					}
-					// Non-wrapped script
-					run();
-					return;
-				}
 
-				runCb = scriptDef.runCb = deferRunSettings.run;
+					runCb = scriptDef.runCb = deferRunSettings.run;
 
-				if ( deferRunSettings.def ) {
-					$.deferDef( deferRunSettings.def, url );
-				}
+					if ( deferRunSettings.def ) {
+						$.deferDef( deferRunSettings.def, url );
+					}
 
-				depends = makeArray( deferRunSettings.depends ) || [];
-				prepareSubDefs( !contains && deferRunSettings.contains )
+					depends = makeArray( deferRunSettings.depends ) || [];
+					prepareSubDefs( !contains && deferRunSettings.contains )
 
-				if ( depends.length ) {
-					runWait++;
-					loadDependencies( depends );
-				}
-			});
+					if ( depends.length ) {
+						runWait++;
+						loadDependencies( depends );
+					}
+				});
 		}
 
 		function prepareSubDefs( containNames ) {
@@ -193,6 +196,12 @@ $.extend({
 		}
 
 		if ( multiple || !promise ) {
+			asyncLoad = $.Deferred();
+
+			if ( loaded && eval( loaded ) ) {
+				return asyncLoad.resolve().promise();
+			}
+
 			if ( delayDomReady ) {
 				$.readyWait++;
 			}

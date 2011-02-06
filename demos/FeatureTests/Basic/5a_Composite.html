@@ -8,11 +8,12 @@
 
 	<script type="text/javascript">
 
-		$.deferSettings.delayDomReady = true; 
+		$.deferSettings.delayDomReady = true;
 
 		$.defer( "../resources/folder2/compositeDCF.js", {
 				myVal: "val2"
-			}).done( function( components ) {
+			})
+			.done( function( components ) {
 				log( components[0] );
 				log( components[1] );
 				log( components[2] );

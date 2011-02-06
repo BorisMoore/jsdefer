@@ -18,7 +18,8 @@
 		
 		$.defer.d({
 				myVal: "first value"
-			}).done( function( result ) {
+			})
+			.done( function( result ) {
 				log( "multiple false. First Call" );
 				log( result );
 			});
@@ -27,7 +28,8 @@
 		// Script does not re-execute. Previous value returned
 		$.defer.d({
 				myVal: "second value"
-			}).done( function( result ) {
+			})
+			.done( function( result ) {
 				log( "multiple false. Second Call" );
 				log( result );
 			});
@@ -42,7 +44,8 @@
 		
 		$.defer.d({
 				myVal: "first value"
-			}).done( function( result ) {
+			})
+			.done( function( result ) {
 				log( "multiple true. First Call" );
 				log( result );
 			});
@@ -51,7 +54,8 @@
 		// Script re-executes, with new parameters and returns new value.
 		$.defer.d({
 				myVal: "second value"
-			}).done( function( result ) {
+			})
+			.done( function( result ) {
 				log( "multiple true. Second Call" );
 				log( result );
 			});

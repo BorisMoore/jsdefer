@@ -1,7 +1,7 @@
 // This is DeferJS.js: The jQuery-independent version of DeferJS
 // (If you want the jQuery plugin version of DeferJS, use jquery.defer.js).
 
-window.deferJs || window.jQuery && jQuery.defer || (function ( window, undefined ) {
+window.deferJs || window.jQuery && jQuery.defer || (function( window, undefined ) {
 
 var $, document = window.document,
 	anchor = document.createElement("a"),
@@ -10,8 +10,7 @@ var $, document = window.document,
 	loadingScripts = [],
 	loadingSubScripts,
 	promiseMethods = "then done fail isResolved isRejected promise".split( " " ),
-	slice = Array.prototype.slice,
-	getAjax;
+	slice = Array.prototype.slice;
 	
 if ( window.jQuery ) {
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +32,7 @@ if ( window.jQuery ) {
 	// Also provide simplified support for $.extend, DomReady and AJAX x-domain requests, 
 	// since we can't use jQuery implementations of those...
 	
-	window.deferJs = window.$ = $ = function ( cb ) {
+	window.deferJs = window.$ = $ = function( cb ) {
 		return readyList.done( cb );
 	};
 		
@@ -201,7 +200,7 @@ if ( window.jQuery ) {
 			if ( length > 1 ) {
 				resolveArray = new Array( length );
 				for ( index = 0; index < length; index++ ) {
-						$.when( element ).then( function( value ) {
+						$.when( args[index] ).then( function( value ) {
 							resolveArray[ index ] = arguments.length > 1 ? slice.call( arguments, 0 ) : value;
 							if( ! --length ) {
 								deferred.resolveWith( promise, resolveArray );
@@ -215,7 +214,7 @@ if ( window.jQuery ) {
 		}
 	});
 
-	getAjax = function getAjax( options ) {
+	function getAjax( options ) {
 		var deferred = $.Deferred(),
  			head = document.getElementsByTagName( "head" )[ 0 ] || document.documentElement,
 			script = document.createElement( "script" );
@@ -224,7 +223,7 @@ if ( window.jQuery ) {
 
 		// TODO? Add support for timeout and cache
 
-		script.onload = script.onreadystatechange = function () {
+		script.onload = script.onreadystatechange = function() {
 			if ( !script.readyState || /loaded|complete/.test( script.readyState ) ) {
 				// Handle memory leak in IE
 				script.onload = script.onreadystatechange = null;
@@ -244,7 +243,7 @@ if ( window.jQuery ) {
 
 	function domReady() {
 		if ( !document.body ) {
-			return setTimeout( function () { 
+			return setTimeout( function() { 
 				domReady(); 
 			}, 1 );
 		}
@@ -310,15 +309,18 @@ $.extend({
 			delayDomReady = options.delayDomReady || deferSettings.delayDomReady,
 			min = options.min || deferSettings.min,
 			scriptDef = getScriptDef( scriptName, basePath ),
-			bare = options.bare || scriptDef.bare,
 			url = scriptDef.url,
 			loadUrl = ( min && scriptDef.minUrl ) || scriptDef.url,
 
-			contains = scriptDef.contains,
+			settings = $.extend( scriptDef, options ),
+			bare = settings.bare,
+			contains = settings.contains,
+			loaded = settings.loaded,
+			depends = settings.depends,
+			multiple = settings.multiple,
+			
 			parentPromise = scriptDef.prntPrms,
 			promise = scriptDef.promise,
-			depends = scriptDef.depends,
-			multiple = scriptDef.multiple,
 			runCb, thisPromise, hasRun, hasRunPromise;
 
 		function run() {
@@ -386,8 +388,7 @@ $.extend({
 
 		function getScript() {
 			// Use $.ajax if jQuery is loaded. Otherwised use our stripped down getAjax call.
-			return ($.ajax || getAjax)(
-				{
+			return ($.ajax || getAjax)({
 					url: loadUrl,
 					dataType: "script",
 					timeout: options.timeout,
@@ -451,6 +452,12 @@ $.extend({
 		}
 
 		if ( multiple || !promise ) {
+			asyncLoad = $.Deferred();
+
+			if ( loaded && eval( loaded )) {
+				return asyncLoad.resolve().promise();
+			}
+
 			if ( delayDomReady ) {
 				$.readyWait++;
 			}
@@ -478,7 +485,7 @@ $.extend({
 		return promise;
 	},
 
-	deferDef: function ( scriptDefs, thisUrl ) {
+	deferDef: function( scriptDefs, thisUrl ) {
 		var scriptName, basePath, scriptDef,
 			scriptEl = document.getElementsByTagName( "script" );
 
@@ -495,7 +502,7 @@ $.extend({
 //			scriptDef = scriptByUrl[ url ];
 //			// Autogenerate methods on defer for registered scripts.
 //			if ( !scriptDef ) {
-//				scriptDef = function () {
+//				scriptDef = function() {
 //					var args = array.prototype.slice.call( arguments, 0 );
 //					args.unshift( name );
 //					return defer.apply( $, args );
@@ -503,7 +510,7 @@ $.extend({
 //			}
 
 				// Autogenerate methods on defer for registered scripts.
-				scriptDef = scriptByUrl[ url ] || function () {
+				scriptDef = scriptByUrl[ url ] || function() {
 					var args = slice.call( arguments, 0 );
 					args.unshift( name );
 					return defer.apply( $, args );
@@ -548,7 +555,7 @@ $.extend({
 	}
 });
 
-window.$deferRun = function ( run, settings ) {
+window.$deferRun = function( run, settings ) {
 	settings = makeArray( settings );
 	settings = settings && settings.length ? { depends: settings } : settings || {};
 	settings.run = run;
