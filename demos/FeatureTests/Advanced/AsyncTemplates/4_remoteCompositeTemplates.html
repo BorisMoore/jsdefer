@@ -15,11 +15,9 @@
 			}
 		});
 
-		$.defer.richTmpls()
-			.done( function() {
-				$.tmpl( "@outer", "@../../templatesAndData/myRichData.js" ).appendTo( "ul" );
-			});
+		$.defer.richTmpls();
 
+		$.tmpl( "@outer", "@../../templatesAndData/myRichData.js" ).appendTo( "ul" );
 
 	</script>
 </head>

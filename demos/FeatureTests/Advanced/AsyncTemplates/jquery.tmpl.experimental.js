@@ -124,7 +124,7 @@
 	});
 
 	function maybeDeferred( res ) {
-		return typeof res === "string" && res[0] === "@" ? 
+		return typeof res === "string" && res.charAt(0) === "@" ? 
 			jQuery.defer( res.substr( 1 ), { delayDomReady: true } ) :
 			res;
 	}
@@ -236,7 +236,7 @@
 			}
 			// Return named compiled template
 			return name ? (typeof name !== "string" ? jQuery.template( null, name ): 
-				name[0] === "@" ? name : (jQuery.template[name] || 
+				name.charAt(0) === "@" ? name : (jQuery.template[name] || 
 					// If not in map, treat as a selector. (If integrated with core, use quickExpr.exec) 
 					jQuery.template( null, htmlExpr.test( name ) ? name : jQuery( name )))) : null; 
 		},
