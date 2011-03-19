@@ -18,7 +18,7 @@ return $.extend( app, {
 			.delegate( "select", "change", app.sort )
 			.delegate( "#sortBtn", "click", app.sort )
 			.delegate( "#submit", "click", function() {
-				alert( cart.count + " bookings submitted for payment...");
+				alert( app.cart.count + " bookings submitted for payment...");
 				movieApp.removeBookings();
 			})
 			.delegate( "#cancel", "click", function() {

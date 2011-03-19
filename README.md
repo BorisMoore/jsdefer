@@ -1,4 +1,4 @@
-# DeferJS Features:
+# JsDefer Features:
 
 * Wrapped scripts
 * Unwrapped scripts
@@ -23,20 +23,20 @@
 ## Demos
 
 ### Complete Demos
-* Different versions of the [Movies Demo app](https://github.com/BorisMoore/DeferJS/tree/master/demos/Movies/pages) 
-are provided to illustrate different use scenarios for DeferJS.
+* Different versions of the [Movies Demo app](https://github.com/BorisMoore/JsDefer/tree/master/demos/Movies/pages) 
+are provided to illustrate different use scenarios for JsDefer.
 
 ### Feature tests: 
 
 * Basic Features: Currently no unit tests are provided (they will come) but the 
-[FeatureTests/Basic](https://github.com/BorisMoore/DeferJS/tree/master/demos/FeatureTests/Basic) 
+[FeatureTests/Basic](https://github.com/BorisMoore/JsDefer/tree/master/demos/FeatureTests/Basic) 
 folder provides some examples for testing different feature details.
 * Advanced Features: 
-[This folder](https://github.com/BorisMoore/DeferJS/tree/master/demos/FeatureTests/WithOrWithoutJQuery) 
-shows how to use DeferJS with or without jQuery.
-[These samples](https://github.com/BorisMoore/DeferJS/tree/master/demos/FeatureTests/Advanced) 
+[This folder](https://github.com/BorisMoore/JsDefer/tree/master/demos/FeatureTests/WithOrWithoutJQuery) 
+shows how to use JsDefer with or without jQuery.
+[These samples](https://github.com/BorisMoore/JsDefer/tree/master/demos/FeatureTests/Advanced) 
 illustrate some less-commonly used features. 
-The [AsyncTemplates](https://github.com/BorisMoore/DeferJS/tree/master/demos/FeatureTests/Advanced/AsyncTemplates) 
+The [AsyncTemplates](https://github.com/BorisMoore/JsDefer/tree/master/demos/FeatureTests/Advanced/AsyncTemplates) 
 folder explores some experimental integration with 
 [jQuery Templates](https://github.com/jquery/jquery-tmpl).
 

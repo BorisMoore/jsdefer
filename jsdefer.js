@@ -1,7 +1,7 @@
-// This is DeferJS.js: The jQuery-independent version of DeferJS
-// (If you want the jQuery plugin version of DeferJS, use jquery.defer.js).
+// This is jsdefer.js: The jQuery-independent version of JsDefer
+// (If you want the jQuery plugin version of JsDefer, use jquery.defer.js).
 
-window.deferJs || window.jQuery && jQuery.defer || (function( window, undefined ) {
+window.jsDefer || window.jQuery && jQuery.defer || (function( window, undefined ) {
 
 var $, document = window.document,
 	anchor = document.createElement("a"),
@@ -24,7 +24,7 @@ if ( window.jQuery ) {
 
 } else {
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// jQuery is not loaded. Make $ the deferJS object
+	// jQuery is not loaded. Make $ the jsDefer object
 	
 	// Use a 'clone' of the implementation of Deferred from jQuery-1.5.js
 	// to provide identical Deferred APIs and behavior to jQuery.
@@ -32,7 +32,7 @@ if ( window.jQuery ) {
 	// Also provide simplified support for $.extend, DomReady and AJAX x-domain requests, 
 	// since we can't use jQuery implementations of those...
 	
-	window.deferJs = window.$ = $ = function( cb ) {
+	window.jsDefer = window.$ = $ = function( cb ) {
 		return readyList.done( cb );
 	};
 		
@@ -412,7 +412,7 @@ $.extend({
 						}
 						// Non-wrapped script
 						if ( jQuery && $ !== jQuery ) {
-							// Special case: jQuery has been loaded dynamically by DeferJS, so switch to plugin version of DeferJS
+							// Special case: jQuery has been loaded dynamically by JsDefer, so switch to plugin version of JsDefer
 							$ = jQuery.extend({
 								defer: defer,
 								deferSettings: deferSettings,
