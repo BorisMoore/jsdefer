@@ -71,7 +71,7 @@ $.extend({
 			loaded = settings.loaded,
 			depends = settings.depends,
 			multiple = settings.multiple,
-			
+
 			parentPromise = scriptDef.prntPrms,
 			promise = scriptDef.promise,
 			runCb, thisPromise, hasRun, hasRunPromise;

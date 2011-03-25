@@ -3,7 +3,7 @@
 <head>
 
 <!--
-	JsDefer.js is the jQuery-independent version of JsDefer, but it will become equivalent 
+	JsDefer.js is the jQuery-independent version of JsDefer, but it will become equivalent
 	to jquery.defer.js and will create a jQuery plugin if jQuery IS loaded already.
 -->
 	<script src="../../../JsDefer.js" type="text/javascript"></script>
@@ -18,14 +18,14 @@
 
 		function loadJQuery() {
 			$.defer( "http://code.jquery.com/jquery.js", {
-					bare: true 
+					bare: true
 				})
 				.done( useJQuery );
 		}
 
 		function useJQuery() {
 			alert( "jQuery tells me that 'console' content is currently: \n" + $( "#results" ).html()  );
-			
+
 			$.defer( "../resources/folder2/c.js", {
 					myVal: "val2"
 				})

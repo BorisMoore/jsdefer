@@ -6,11 +6,11 @@
 
 	<script type="text/javascript">
 		$.defer( "jquery.tmpl.experimental.js", { bare: true, delayDomReady: true } );
-				
-		$( function() { 
-			$.tmpl( 
-				$.defer( "../../templatesAndData/myTmpl.js" ), 
-				$.defer( "../../templatesAndData/myData.js" ) 
+
+		$( function() {
+			$.tmpl(
+				$.defer( "../../templatesAndData/myTmpl.js" ),
+				$.defer( "../../templatesAndData/myData.js" )
 			).appendTo( "ul" );
 		});
 	</script>

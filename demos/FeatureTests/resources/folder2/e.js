@@ -5,6 +5,6 @@
 		return options && options.myVal + ". File:  e";
 	},
 
-	"c.js" 
+	"c.js"
 
 ));

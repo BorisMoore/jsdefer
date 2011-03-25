@@ -1,9 +1,9 @@
-﻿// This version of the Movies App creates a 'movies' object, to which it adds the passed in movieSettings. 
-// It returns the app object. 
+﻿// This version of the Movies App creates a 'movies' object, to which it adds the passed in movieSettings.
+// It returns the app object.
 
 ((window.$deferRun || function( run ){ run(); }) ( function( $, app ) {
 
-var pageIndex = app.pageIndex || 1, pageSize = app.pageSize || 3, pageCount = 0, bookingTmplItems = [], selectedBooking; 
+var pageIndex = app.pageIndex || 1, pageSize = app.pageSize || 3, pageCount = 0, bookingTmplItems = [], selectedBooking;
 
 return $.extend( app, {
 	currentGenre: null,
@@ -11,7 +11,7 @@ return $.extend( app, {
 	cart: { bookings: {}, count: 0, sortBy:0 },
 	init: function( data, genre, pageSizeInit ) {
 		app.currentGenre = genre;
-		pageSize = app.pageSize = pageSizeInit; 
+		pageSize = app.pageSize = pageSizeInit;
 		$( "#genres li" ).click( movieApp.selectGenre );
 
 		$( ".cart" )
@@ -48,7 +48,7 @@ return $.extend( app, {
 			case "2":
 				compare = compareDate;
 				break;
-		} 
+		}
 
 		for ( var item in app.cart.bookings ) {
 			data.push( app.cart.bookings[item] );
@@ -56,7 +56,7 @@ return $.extend( app, {
 		data = data.sort( compare );
 
 		bookingTmplItems = $.tmplCmd( "replace", data, bookingTmplItems );
-	
+
 		function compareName( a, b ) {
 			return a == b ? 0 : (((a.movie.Name > b.movie.Name) !== reverse) ? 1 : -1);
 		}
@@ -69,7 +69,7 @@ return $.extend( app, {
 			movies = data.d.results;
 
 		$( "#pager" ).pager({ pagenumber: pageIndex, pagecount: pageCount, buttonClickCallback: app.getMoreMovies });
-		
+
 		$( "#movieList" )
 			.empty()
 
@@ -81,7 +81,7 @@ return $.extend( app, {
 	getMoreMovies: function( index ) {
 		pageIndex = index;
 		getMoviesData( app.currentGenre, pageSize, pageIndex ).done( app.showMovies );
-	}, 
+	},
 	buyTickets: function( movie ) {
 		// Add item to cart
 		var booking = app.cart.bookings[movie.Id];
@@ -101,7 +101,7 @@ return $.extend( app, {
 				return;
 			}
 			// Collapse previously selected booking, and switch to non-edit view
-			var oldSelected = selectedBooking; 
+			var oldSelected = selectedBooking;
 			$( "div", app.bookingItem( oldSelected ).nodes ).animate( { height: 0 }, 500, function() {
 				app.switchView( oldSelected );
 			});
@@ -117,7 +117,7 @@ return $.extend( app, {
 
 			// Render the booking for the chosen movie using the bookingEditTemplate, and append the rendered booking to the bookings list
 			$( "#bookingsList" ).append( "#bookingEditTmpl", booking, {
-				animate: true, 
+				animate: true,
 				rendered: app.onBookingEditRendered,
 				addedTmplItems: bookingTmplItems
 			});
@@ -149,7 +149,7 @@ return $.extend( app, {
 	},
 	onBookingEditRendered: function( item ) {
 		var data = item.data, nodes = item.nodes;
-		
+
 		$( nodes[0] ).click( function() {
 			app.selectBooking();
 		});
@@ -190,7 +190,7 @@ return $.extend( app, {
 		app.cart.count--;
 		app.cartTmplItem.update();
 		$.tmplCmd( "remove", booking, bookingTmplItems );
-		return false; 
+		return false;
 	},
 	removeBookings: function() {
 		$.tmplCmd( "remove", bookingTmplItems );

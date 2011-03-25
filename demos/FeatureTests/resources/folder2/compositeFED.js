@@ -2,7 +2,7 @@
 // Composite
 ((window.$deferRun || function( run ){ run(); }) (
 function( $, options ) {
-		
+
 	((window.$deferRun || function( run ){ run(); }) (
 	function( $, options ) {
 		window.testloaded.f = "";

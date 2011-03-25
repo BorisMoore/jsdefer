@@ -6,4 +6,3 @@ $.deferDef({
 	},
 	e: "folder2/e.js"
 });
-	

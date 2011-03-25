@@ -11,7 +11,7 @@ var $, document = window.document,
 	loadingSubScripts,
 	promiseMethods = "then done fail isResolved isRejected promise".split( " " ),
 	slice = Array.prototype.slice;
-	
+
 if ( window.jQuery ) {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// jQuery is loaded, so make $ the jQuery object
@@ -25,17 +25,17 @@ if ( window.jQuery ) {
 } else {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// jQuery is not loaded. Make $ the jsDefer object
-	
+
 	// Use a 'clone' of the implementation of Deferred from jQuery-1.5.js
 	// to provide identical Deferred APIs and behavior to jQuery.
-	
-	// Also provide simplified support for $.extend, DomReady and AJAX x-domain requests, 
+
+	// Also provide simplified support for $.extend, DomReady and AJAX x-domain requests,
 	// since we can't use jQuery implementations of those...
-	
+
 	window.jsDefer = window.$ = $ = function( cb ) {
 		return readyList.done( cb );
 	};
-		
+
 	$.extend = function( target, source ) {
 		if ( source === undefined ) {
 			source = target;
@@ -49,7 +49,7 @@ if ( window.jQuery ) {
 
 	$.extend({
 		readyWait: 1,
-		
+
 		ready: function( wait ) {
 			// A third-party is pushing the ready event forwards
 			if ( wait === true ) {
@@ -62,8 +62,8 @@ if ( window.jQuery ) {
 
 		isFunction: function( elem ) {
 			return typeof elem === "function";
-		}, 
-		
+		},
+
 		// Create a simple deferred (one callbacks list)
 		_Deferred: function() {
 			var // callbacks list
@@ -188,7 +188,7 @@ if ( window.jQuery ) {
 
 		// Deferred helper
 		when: function( object ) {
-			var index, 
+			var index,
 				args = arguments,
 				length = args.length,
 				deferred = length <= 1 && object && $.isFunction( object.promise ) ?
@@ -243,14 +243,14 @@ if ( window.jQuery ) {
 
 	function domReady() {
 		if ( !document.body ) {
-			return setTimeout( function() { 
-				domReady(); 
+			return setTimeout( function() {
+				domReady();
 			}, 1 );
 		}
 		$.isReady = true;
-		ready( true );	
+		ready( true );
 	}
-	domReady();	
+	domReady();
 }
 
 
@@ -318,7 +318,7 @@ $.extend({
 			loaded = settings.loaded,
 			depends = settings.depends,
 			multiple = settings.multiple,
-			
+
 			parentPromise = scriptDef.prntPrms,
 			promise = scriptDef.promise,
 			runCb, thisPromise, hasRun, hasRunPromise;
@@ -395,7 +395,7 @@ $.extend({
 					cache: !options.noCache,
 					crossDomain: true // Force regular script insertion, rather than XMLHTTP plus script insertion in document, for easier debugging.
 				})
-			
+
 				.fail( reject )
 
 				// readyStateChange complete has happened
@@ -567,7 +567,7 @@ deferSettings = $.deferSettings;
 defer = $.defer;
 deferDef = $.deferDef;
 ready = $.ready;
-	
+
 readyList = $.Deferred();
 readyList.promise( ready );
 

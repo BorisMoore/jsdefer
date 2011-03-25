@@ -5,7 +5,7 @@
 		return options && options && options.myVal + ". File:  addDependencies";
 	},
 
-	{ 
+	{
 		depends: "c",
 		def: {
 			c: {

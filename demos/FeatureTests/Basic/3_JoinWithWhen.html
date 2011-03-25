@@ -9,7 +9,7 @@
 	<script type="text/javascript">
 
 		var f = $.defer( "../resources/f.js", {
-				delayDomReady: true 
+				delayDomReady: true
 			})
 			.done( function(){
 				log( "f loaded. DomReady: " + $.ready.isResolved() );
@@ -17,19 +17,19 @@
 
 		var a = $.defer( "../resources/folder1/a.js" );
 
-		$.when( 
+		$.when(
 				a,
 				f
 			)
-			.done( function(){ 
+			.done( function(){
 				log( "a and f loaded. DomReady: " + $.ready.isResolved() );
 			});
 
-		$.when( 
+		$.when(
 				f,
 				$.ready
 			)
-			.done( function( result ){ 
+			.done( function( result ){
 				log( "f has loaded and Dom is ready" );
 			});
 

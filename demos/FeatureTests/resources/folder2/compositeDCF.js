@@ -2,7 +2,7 @@
 // Composite
 ((window.$deferRun || function( run ){ run(); }) (
 function( $, options ) {
-	
+
 	((window.$deferRun || function( run ){ run(); }) (
 	function( $, options ) {
 		window.testloaded.d = "";
@@ -14,13 +14,13 @@ function( $, options ) {
 		window.testloaded.c = "";
 		return options && options && options.myVal + ". File:  c";
 	}));
-	
+
 	((window.$deferRun || function( run ){ run(); }) (
 	function( $, options ) {
 		window.testloaded.f = "";
 		return options && options && options.myVal + ". File:  f";
 	}));
-	
+
 },
 {
 	depends: "../folder1/a.js",

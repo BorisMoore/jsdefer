@@ -6,7 +6,7 @@
 * Optional deferring of DomReady at global or individual request level
 * Can also add dependencies for script - or add new  definitions - in the script itself, if wrapped
 * Execution order based on dependency
-* Parallel/serial loading based on definitions, dependency, and wrapped versus unwrapped, and whether 
+* Parallel/serial loading based on definitions, dependency, and wrapped versus unwrapped, and whether
     dependencies are defined in separate def file or in script itself.
 * Passing options to scripts
 * Wrapped script can provide a return value
@@ -23,21 +23,21 @@
 ## Demos
 
 ### Complete Demos
-* Different versions of the [Movies Demo app](https://github.com/BorisMoore/JsDefer/tree/master/demos/Movies/pages) 
+* Different versions of the [Movies Demo app](https://github.com/BorisMoore/JsDefer/tree/master/demos/Movies/pages)
 are provided to illustrate different use scenarios for JsDefer.
 
-### Feature tests: 
+### Feature tests:
 
-* Basic Features: Currently no unit tests are provided (they will come) but the 
-[FeatureTests/Basic](https://github.com/BorisMoore/JsDefer/tree/master/demos/FeatureTests/Basic) 
+* Basic Features: Currently no unit tests are provided (they will come) but the
+[FeatureTests/Basic](https://github.com/BorisMoore/JsDefer/tree/master/demos/FeatureTests/Basic)
 folder provides some examples for testing different feature details.
-* Advanced Features: 
-[This folder](https://github.com/BorisMoore/JsDefer/tree/master/demos/FeatureTests/WithOrWithoutJQuery) 
+* Advanced Features:
+[This folder](https://github.com/BorisMoore/JsDefer/tree/master/demos/FeatureTests/WithOrWithoutJQuery)
 shows how to use JsDefer with or without jQuery.
-[These samples](https://github.com/BorisMoore/JsDefer/tree/master/demos/FeatureTests/Advanced) 
-illustrate some less-commonly used features. 
-The [AsyncTemplates](https://github.com/BorisMoore/JsDefer/tree/master/demos/FeatureTests/Advanced/AsyncTemplates) 
-folder explores some experimental integration with 
+[These samples](https://github.com/BorisMoore/JsDefer/tree/master/demos/FeatureTests/Advanced)
+illustrate some less-commonly used features.
+The [AsyncTemplates](https://github.com/BorisMoore/JsDefer/tree/master/demos/FeatureTests/Advanced/AsyncTemplates)
+folder explores some experimental integration with
 [jQuery Templates](https://github.com/jquery/jquery-tmpl).
 
 
@@ -46,8 +46,8 @@ folder explores some experimental integration with
 
 ### Request deferred script loading
 
-	// Note: If scripts have been defined in a deferDef declaration, this will  
-	// trigger parallel loading of all dependent scripts, 
+	// Note: If scripts have been defined in a deferDef declaration, this will
+	// trigger parallel loading of all dependent scripts,
 	// and will execute scripts in the correct order
 
 	// Load movies script
@@ -58,7 +58,7 @@ folder explores some experimental integration with
 
 ### Deferred script loading using delayed DomReady event
 
-	$.deferSettings.delayDomReady = true; 
+	$.deferSettings.delayDomReady = true;
 
 	$.defer( "...movieApp.js" );
 
@@ -77,11 +77,11 @@ folder explores some experimental integration with
 
 ### Using $.when to handle parallel async processes
 
-	// Load both data and scripts in parallel, 
-	// and process when data, scripts and DOM are ready 
+	// Load both data and scripts in parallel,
+	// and process when data, scripts and DOM are ready
 	$.when(
 		$.defer( "...movieApp.js", { pageSize: 4 } ),
-		getMovies( "Cartoons" ), 
+		getMovies( "Cartoons" ),
 		$.ready
 	)
 	.done( function( movieApp, data ) {
@@ -98,49 +98,49 @@ folder explores some experimental integration with
 	$.deferSettings.delayDomReady = true;
 
 
-### Create deferDef definition - to load and execute dependencies in correct order 
+### Create deferDef definition - to load and execute dependencies in correct order
 
 	$.deferDef({
 		// Just set the URL
 		tmpl: "http://...jquery.tmpl.js",
-	
+
 		// Specify url and dependencies
 		tmplPlus: {
 			url: "http://.../jquery.tmplPlus.js",
-			depends: "tmpl" 
+			depends: "tmpl"
 		},
 
 		tmplCombined: {
 			url: "myCombinedFiles/tmplCombined.js",
-		
+
 			// This script has both minified and unminified versions
 			urlMin: "myCombinedFiles/tmpl.min.js",
-		
-			// It is a combined script: it can be used in place of the tmpl and tmplPlus scripts 
+
+			// It is a combined script: it can be used in place of the tmpl and tmplPlus scripts
 			contains: [ "tmpl", "tmplPlus" ]
 		},
 
 		yahooHelper: {
 			url: "http://.../yahooHelper.js",
-		
-			// This script is not wrapped. 
+
+			// This script is not wrapped.
 			// It will load in sequence, prior to any script that depends on it
 			bare: true,
 		},
 
 		movieApp: {
 			url: "movieApp.js",
-		
+
 			// Depends on both a declared and undeclared scripts
-			// It depends on the unwrapped yahooHelper script, so if yahooHelper is not already loaded, 
+			// It depends on the unwrapped yahooHelper script, so if yahooHelper is not already loaded,
 			// the HTTP request for movieApp will be made only after sequentially loading yahooHelper
 			depends: [ "tmplPlus", "http://...datamodel.js", "yahooHelper" ]
 		}
 
 	});
 
-	// Can optionally use typed methods to do a deferred load of any resource script defined in 
-	// the deferDef definition (plus its dependencies): 
+	// Can optionally use typed methods to do a deferred load of any resource script defined in
+	// the deferDef definition (plus its dependencies):
 
 	$.defer.movieApp()
 		.done( workWithMovies )
@@ -149,13 +149,13 @@ folder explores some experimental integration with
 
 ### Wrapped script
 
-_Note:_ This can be loaded by any script loader that recognizes 
+_Note:_ This can be loaded by any script loader that recognizes
 the $deferRun global name for the wrapper function.
 
-	$deferRun( 
+	$deferRun(
 
 	function( $, options ) {
-	
+
 		// Script code here
 		doStuff( options );
 		return myObject;
@@ -167,7 +167,7 @@ the $deferRun global name for the wrapper function.
 
 ### Self-executing wrapper
 
-_Use this wrapper syntax to create a wrapped script which can also be loaded as a static script 
+_Use this wrapper syntax to create a wrapped script which can also be loaded as a static script
  in the absence of a script loader recognizing the $deferRun wrapper function_
 
 	((window.$deferRun || function( run ){ run(); }) (
@@ -183,8 +183,8 @@ _Use this wrapper syntax to create a wrapped script which can also be loaded as 
 
 ### Declare dependencies on script itself
 
-_Note:_ If the dependent script was already declared in a deferDef definition, then 
-it will have loaded in parallel. Otherwise, if only declared here, it will be loaded 
+_Note:_ If the dependent script was already declared in a deferDef definition, then
+it will have loaded in parallel. Otherwise, if only declared here, it will be loaded
 in series - after this script loads, but before the body of this script is executed.
 
 	((window.$deferRun || function( run ){ run(); }) (
@@ -196,7 +196,7 @@ in series - after this script loads, but before the body of this script is execu
 	},
 
 	// Declare one or more dependent scripts
-	"myOtherCode.js" 
+	"myOtherCode.js"
 
 	));
 
@@ -216,7 +216,7 @@ in series - after this script loads, but before the body of this script is execu
 
 		// Declare some deferDer script definitions
 		def: {
-			myComponent: { 
+			myComponent: {
 				url: "...myComponent.js",
 				minUrl: "...myComponent.min.js",
 				depends: "...componentCore.js"
@@ -227,14 +227,14 @@ in series - after this script loads, but before the body of this script is execu
 
 ### Script combination: Composite scripts
 
-The different wrapped scripts within this script are identical to the 
-individual wrapped scripts that they replace. 
+The different wrapped scripts within this script are identical to the
+individual wrapped scripts that they replace.
 
 _tmplCombined.js:_
 
 	$deferRun(
 	function( $, options ) {
-	
+
 		$deferRun(
 		function( $, options ) {
 			// Script code for tmpl.js here
@@ -244,7 +244,7 @@ _tmplCombined.js:_
 		function( $, options ) {
 			// Script code for tmplPlus here
 		});
-	
+
 	});
 
 _Associated script definition, and invocation_
@@ -252,21 +252,21 @@ _Associated script definition, and invocation_
 	$.deferDef({
 		tmplCombined: {
 			url: "myCombinedFiles/tmplCombined.js",
-		
+
 			contains: [ "http://...tmpl.js", "http://...tmplPlus.js" ]
 		}
 	});
 
 	$.defer.tmplCombined();
 
-	// Note: The above will make one HTTP request for the composite file, 
+	// Note: The above will make one HTTP request for the composite file,
 	// but is otherwise equivalent to the following two requests:
 
 	//$.defer( "http://...tmpl.js" );
 	//$.defer( "http://...tmplPlus.js" );
 
-	// The individual wrapped scripts will execute in the correct order based on the 
-	// declared dependencies of the individual scripts files they represent, 
+	// The individual wrapped scripts will execute in the correct order based on the
+	// declared dependencies of the individual scripts files they represent,
 	// but the individual files will not be loaded, once the composite
 	// script has been requested.
 
@@ -276,7 +276,7 @@ _Associated script definition, and invocation_
 	$deferRun(
 
 	function( $, options ) {
-	
+
 		$deferRun(
 		function( $, options ) {
 			// Script code for sub script 1 here
@@ -286,19 +286,19 @@ _Associated script definition, and invocation_
 		function( $, options ) {
 			// Script code for sub script 2 here
 		});
-	
+
 	},
 	{
 		depends: [ "...OtherCode.js", "foo" ],
 		def: {
-			myVal: { 
+			myVal: {
 				url: "...foo.js",
 				minUrl: "...foo.min.js",
 				depends: "...fooCore.js"
 			}
 		}
 	}
-	
+
 	);
 
 
@@ -307,12 +307,12 @@ _Associated script definition, and invocation_
 _Use the following wrapper syntax to create a composite
  script that can also be loaded statically_
 
-_Note:_ if loaded statically, the individual wrapped scripts 
-will execute in document order 
+_Note:_ if loaded statically, the individual wrapped scripts
+will execute in document order
 
 		((window.$deferRun || function( run ){ run(); }) (
 		function( $, options ) {
-	
+
 			((window.$deferRun || function( run ){ run(); }) (
 			function( $, options ) {
 				// Script code for sub script 1 here
@@ -322,12 +322,12 @@ will execute in document order
 			function( $, options ) {
 				// Script code for sub script 2 here
 			}));
-	
+
 			((window.$deferRun || function( run ){ run(); }) (
 			function( $, options ) {
 				// Script code for sub script 3 here
 			}));
-	
+
 		}));
 
 
@@ -338,9 +338,9 @@ will execute in document order
 #### Delayed DomReady
 
 	<script src="../../jQueryUI/jQueryUiDefs.js" type="text/javascript"></script>
-	
+
 	<script type="text/javascript">
-	
+
 	var movieApp = { pageSize: 4 };
 
 	// Declare inline deferDef script definition, in addition to static jQueryUiDefs.js file above
@@ -348,7 +348,7 @@ will execute in document order
 		tmpl: "http://...jquery.tmpl.js",
 		tmplPlus: {
 			url: "http://.../jquery.tmplPlus.js",
-			depends: "tmpl" 
+			depends: "tmpl"
 		},
 		movies: {
 			url: "movies.js",
@@ -361,7 +361,7 @@ will execute in document order
 	// Load and execute all required scripts:
 	$.defer.movies();
 	$.defer.datePicker();
-		
+
 	// Use delayed DomReady event to use loaded scripts and access DOM
 	$( function() {
 		$.movies( movieApp );
@@ -369,7 +369,7 @@ will execute in document order
 			.done( function( data ) {
 				movieApp.render( data );
 				$( "#genres li" ).click( movieApp.selectGenre );
-			}); 
+			});
 
 
 ## App example:
@@ -379,16 +379,16 @@ will execute in document order
 
 	<script src="../../jQueryUI/jQueryUiDefs.js" type="text/javascript"></script>
 	<script src="../../MovieAppDefs.js" type="text/javascript"></script>
-	
+
 	<script type="text/javascript">
-	
+
 	// Load and execute all required scripts, and fetch data
 	// Use loaded scripts and data, and access DOM
-	$.when( 
+	$.when(
 		$.defer.movies({ pageSize: 4 }),
-		getMovies( 0, "Cartoons" ), 
+		getMovies( 0, "Cartoons" ),
 		$.defer.datePicker(),
-		$.ready 
+		$.ready
 	)
 	.done( function( movieApp, data ) {
 		movieApp.render( data );
@@ -402,16 +402,16 @@ will execute in document order
 
 	<script src="../../jQueryUI/jQueryUiDefs.js" type="text/javascript"></script>
 	<script src="../../MovieAppDefs.js" type="text/javascript"></script>
-	
+
 	<script type="text/javascript">
 
 	$( function() {
 
 		$("#loadApp").click( function() {
 			// Only load the scripts and data if the user clicks on this button.
-			$.when( 
+			$.when(
 				$.defer.movies({ pageSize: 4 }),
-				getMovies( 0, "Cartoons" ), 
+				getMovies( 0, "Cartoons" ),
 				$.defer.datePicker()
 			)
 			.done( function( movieApp, data ) {

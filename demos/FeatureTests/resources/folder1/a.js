@@ -1,5 +1,4 @@
 ((window.$deferRun || function( run ){ run(); }) (
-//$deferRun( 
 
 function( $, options ) {
 

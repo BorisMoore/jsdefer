@@ -2,8 +2,8 @@
 
 ((window.$deferRun || function( run ){ run(); }) ( function( $, options ) {
 
-$.movies = function( app ) {			
-	var genre="Cartoons", pageIndex = app.pageIndex || 1, pageSize = app.pageSize || 3, pageCount = 0, bookingTmplItems = [], selectedBooking; 
+$.movies = function( app ) {
+	var genre="Cartoons", pageIndex = app.pageIndex || 1, pageSize = app.pageSize || 3, pageCount = 0, bookingTmplItems = [], selectedBooking;
 
 	$.extend( app, {
 		cartTmplItem: null,
@@ -45,7 +45,7 @@ $.movies = function( app ) {
 				case "2":
 					compare = compareDate;
 					break;
-			} 
+			}
 
 			for ( var item in app.cart.bookings ) {
 				data.push( app.cart.bookings[item] );
@@ -53,7 +53,7 @@ $.movies = function( app ) {
 			data = data.sort( compare );
 
 			bookingTmplItems = $.tmplCmd( "replace", data, bookingTmplItems );
-	
+
 			function compareName( a, b ) {
 				return a == b ? 0 : (((a.movie.Name > b.movie.Name) !== reverse) ? 1 : -1);
 			}
@@ -82,7 +82,7 @@ $.movies = function( app ) {
 				movies = data.d.results;
 
 			$( "#pager" ).pager({ pagenumber: pageIndex, pagecount: pageCount, buttonClickCallback: app.getMoreMovies });
-		
+
 			$( "#movieList" )
 				.empty()
 
@@ -91,7 +91,7 @@ $.movies = function( app ) {
 		},
 		getMoreMovies: function( index ) {
 			app.getMovies( index ).done( app.showMovies );
-		}, 
+		},
 		buyTickets: function( movie ) {
 			// Add item to cart
 			var booking = app.cart.bookings[movie.Id];
@@ -111,7 +111,7 @@ $.movies = function( app ) {
 					return;
 				}
 				// Collapse previously selected booking, and switch to non-edit view
-				var oldSelected = selectedBooking; 
+				var oldSelected = selectedBooking;
 				$( "div", app.bookingItem( oldSelected ).nodes ).animate( { height: 0 }, 500, function() {
 					app.switchView( oldSelected );
 				});
@@ -127,7 +127,7 @@ $.movies = function( app ) {
 
 				// Render the booking for the chosen movie using the bookingEditTemplate, and append the rendered booking to the bookings list
 				$( "#bookingsList" ).append( "#bookingEditTmpl", booking, {
-					animate: true, 
+					animate: true,
 					rendered: app.onBookingEditRendered,
 					addedTmplItems: bookingTmplItems
 				});
@@ -158,7 +158,7 @@ $.movies = function( app ) {
 		},
 		onBookingEditRendered: function( item ) {
 			var data = item.data, nodes = item.nodes;
-		
+
 			$( nodes[0] ).click( function() {
 				app.selectBooking();
 			});
@@ -199,7 +199,7 @@ $.movies = function( app ) {
 			app.cart.count--;
 			app.cartTmplItem.update();
 			$.tmplCmd( "remove", booking, bookingTmplItems );
-			return false; 
+			return false;
 		},
 		removeBookings: function() {
 			$.tmplCmd( "remove", bookingTmplItems );

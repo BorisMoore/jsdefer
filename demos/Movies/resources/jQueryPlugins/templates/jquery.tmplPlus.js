@@ -1,5 +1,5 @@
-(function( jQuery ) { 
-	
+(function( jQuery ) {
+
 	var oldComplete = jQuery.tmpl.complete, oldManip = jQuery.fn.domManip;
 
 	// Override jQuery.tmpl.complete in order to provide rendered event.
@@ -7,13 +7,13 @@
 		var tmplItem;
 		oldComplete( tmplItems);
 		for ( tmplItem in tmplItems ) {
-			tmplItem =  tmplItems[tmplItem]; 
+			tmplItem =  tmplItems[tmplItem];
 			if ( tmplItem.addedTmplItems && jQuery.inArray( tmplItem, tmplItem.addedTmplItems ) === -1  ) {
 				tmplItem.addedTmplItems.push( tmplItem );
 			}
 		}
 		for ( tmplItem in tmplItems ) {
-			tmplItem =  tmplItems[tmplItem]; 
+			tmplItem =  tmplItems[tmplItem];
 			// Raise rendered event
 			if ( tmplItem.rendered ) {
 				tmplItem.rendered( tmplItem );
@@ -23,11 +23,11 @@
 
 	jQuery.extend({
 		tmplCmd: function( command, data, tmplItems ) {
-			var retTmplItems = [], before; 
+			var retTmplItems = [], before;
 			function find( data, tmplItems ) {
 				var found = [], tmplItem, ti, tl = tmplItems.length, dataItem, di = 0, dl = data.length;
 				for ( ; di < dl; ) {
-					dataItem = data[di++]; 
+					dataItem = data[di++];
 					for ( ti = 0; ti < tl; ) {
 						tmplItem = tmplItems[ti++];
 						if ( tmplItem.data === dataItem ) {
@@ -45,7 +45,7 @@
 				case "replace":
 					data.reverse();
 			}
-			jQuery.each( tmplItems ? find( data, tmplItems ) : data, function( i, tmplItem ) { 
+			jQuery.each( tmplItems ? find( data, tmplItems ) : data, function( i, tmplItem ) {
 				coll = tmplItem.nodes;
 				switch ( command ) {
 					case "update":
@@ -58,8 +58,8 @@
 						}
 						break;
 					case "replace":
-						before = before ? 
-							jQuery( coll ).insertBefore( before )[0] : 
+						before = before ?
+							jQuery( coll ).insertBefore( before )[0] :
 							jQuery( coll ).appendTo( coll[0].parentNode )[0];
 						retTmplItems.unshift( tmplItem );
 				}
