@@ -123,17 +123,18 @@ folder explores some experimental integration with
 		yahooHelper: {
 			url: "http://.../yahooHelper.js",
 
-			// This script is not wrapped.
-			// It will load in sequence, prior to any script that depends on it
+			// This script is not wrapped, and therefore will load sequentially after its dependencies:
+			// i.e. it will only be requested after any script that it depends on has loaded and executed
 			bare: true,
 		},
 
 		movieApp: {
 			url: "movieApp.js",
 
+			// Note that this script is wrapped (default is bare: false), and so will be loaded in parallel along
+			// with its dependencies. However its contents will not be executed until after execution of dependent scripts.
+
 			// Depends on both a declared and undeclared scripts
-			// It depends on the unwrapped yahooHelper script, so if yahooHelper is not already loaded,
-			// the HTTP request for movieApp will be made only after sequentially loading yahooHelper
 			depends: [ "tmplPlus", "http://...datamodel.js", "yahooHelper" ]
 		}
 
