@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
+	<script src="../console-test.js" type="text/javascript"></script>
+
+	<script src="../../../jquery.defer.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+
+		$.defer( "../resources/folder1/a.js", {
+				myVal: "val1",
+				delayDomReady: true
+			})
+			.done( log );
+
+	</script>
+</head>
+<body>
+
+<b>Results:</b> <span id="results"></span>
+
+</body>
+</html>
+

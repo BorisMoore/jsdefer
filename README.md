@@ -23,20 +23,20 @@
 ## Demos
 
 ### Complete Demos
-* Different versions of the [Movies Demo app](https://github.com/BorisMoore/JsDefer/tree/master/demos/Movies/pages)
+* Different versions of the [Movies Demo app](https://github.com/BorisMoore/jsdefer/tree/master/demos/movies/pages)
 are provided to illustrate different use scenarios for JsDefer.
 
 ### Feature tests:
 
 * Basic Features: Currently no unit tests are provided (they will come) but the
-[FeatureTests/Basic](https://github.com/BorisMoore/JsDefer/tree/master/demos/FeatureTests/Basic)
+[FeatureTests/Basic](https://github.com/BorisMoore/jsdefer/tree/master/demos/featuretests/basic)
 folder provides some examples for testing different feature details.
 * Advanced Features:
-[This folder](https://github.com/BorisMoore/JsDefer/tree/master/demos/FeatureTests/WithOrWithoutJQuery)
+[This folder](https://github.com/BorisMoore/jsdefer/tree/master/demos/featuretests/withorwithoutjquery)
 shows how to use JsDefer with or without jQuery.
-[These samples](https://github.com/BorisMoore/JsDefer/tree/master/demos/FeatureTests/Advanced)
+[These samples](https://github.com/BorisMoore/jsdefer/tree/master/demos/featuretests/advanced)
 illustrate some less-commonly used features.
-The [AsyncTemplates](https://github.com/BorisMoore/JsDefer/tree/master/demos/FeatureTests/Advanced/AsyncTemplates)
+The [AsyncTemplates](https://github.com/BorisMoore/jsdefer/tree/master/demos/featuretests/advanced/asynctemplates)
 folder explores some experimental integration with
 [jQuery Templates](https://github.com/jquery/jquery-tmpl).
 
@@ -105,8 +105,8 @@ folder explores some experimental integration with
 		tmpl: "http://...jquery.tmpl.js",
 
 		// Specify url and dependencies
-		tmplPlus: {
-			url: "http://.../jquery.tmplPlus.js",
+		tmplplus: {
+			url: "http://.../jquery.tmplplus.js",
 			depends: "tmpl"
 		},
 
@@ -116,8 +116,8 @@ folder explores some experimental integration with
 			// This script has both minified and unminified versions
 			urlMin: "myCombinedFiles/tmpl.min.js",
 
-			// It is a combined script: it can be used in place of the tmpl and tmplPlus scripts
-			contains: [ "tmpl", "tmplPlus" ]
+			// It is a combined script: it can be used in place of the tmpl and tmplplus scripts
+			contains: [ "tmpl", "tmplplus" ]
 		},
 
 		yahooHelper: {
@@ -135,7 +135,7 @@ folder explores some experimental integration with
 			// with its dependencies. However its contents will not be executed until after execution of dependent scripts.
 
 			// Depends on both a declared and undeclared scripts
-			depends: [ "tmplPlus", "http://...datamodel.js", "yahooHelper" ]
+			depends: [ "tmplplus", "http://...datamodel.js", "yahooHelper" ]
 		}
 
 	});
@@ -243,7 +243,7 @@ _tmplCombined.js:_
 
 		$deferRun(
 		function( $, options ) {
-			// Script code for tmplPlus here
+			// Script code for tmplplus here
 		});
 
 	});
@@ -254,7 +254,7 @@ _Associated script definition, and invocation_
 		tmplCombined: {
 			url: "myCombinedFiles/tmplCombined.js",
 
-			contains: [ "http://...tmpl.js", "http://...tmplPlus.js" ]
+			contains: [ "http://...tmpl.js", "http://...tmplplus.js" ]
 		}
 	});
 
@@ -264,7 +264,7 @@ _Associated script definition, and invocation_
 	// but is otherwise equivalent to the following two requests:
 
 	//$.defer( "http://...tmpl.js" );
-	//$.defer( "http://...tmplPlus.js" );
+	//$.defer( "http://...tmplplus.js" );
 
 	// The individual wrapped scripts will execute in the correct order based on the
 	// declared dependencies of the individual scripts files they represent,
@@ -338,7 +338,7 @@ will execute in document order
 #### Inline deferDef
 #### Delayed DomReady
 
-	<script src="../../jQueryUI/jQueryUiDefs.js" type="text/javascript"></script>
+	<script src="../../jqueryui/jqueryuidefs.js" type="text/javascript"></script>
 
 	<script type="text/javascript">
 
@@ -347,13 +347,13 @@ will execute in document order
 	// Declare inline deferDef script definition, in addition to static jQueryUiDefs.js file above
 	$.deferDef({
 		tmpl: "http://...jquery.tmpl.js",
-		tmplPlus: {
-			url: "http://.../jquery.tmplPlus.js",
+		tmplplus: {
+			url: "http://.../jquery.tmplplus.js",
 			depends: "tmpl"
 		},
 		movies: {
 			url: "movies.js",
-			depends: "tmplPlus"
+			depends: "tmplplus"
 		}
 	});
 
@@ -378,7 +378,7 @@ will execute in document order
 #### Parallel loading of data and scripts
 #### Using $.when to access scripts, data and DOM
 
-	<script src="../../jQueryUI/jQueryUiDefs.js" type="text/javascript"></script>
+	<script src="../../jqueryui/jqueryuidefs.js" type="text/javascript"></script>
 	<script src="../../MovieAppDefs.js" type="text/javascript"></script>
 
 	<script type="text/javascript">
@@ -401,7 +401,7 @@ will execute in document order
 
 #### Lazy loading of scripts and data
 
-	<script src="../../jQueryUI/jQueryUiDefs.js" type="text/javascript"></script>
+	<script src="../../jqueryui/jqueryuidefs.js" type="text/javascript"></script>
 	<script src="../../MovieAppDefs.js" type="text/javascript"></script>
 
 	<script type="text/javascript">

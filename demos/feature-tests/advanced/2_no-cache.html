@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
+	<script src="../console-test.js" type="text/javascript"></script>
+
+	<script src="../../../jquery.defer.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+
+		$.deferSettings.delayDomReady = true;
+
+		$.deferDef({
+			a: {
+				url: "../resources/folder1/add-dependencies.js",
+				depends: "../resources/folder2/c.js"
+			},
+			e: "../resources/folder2/e.js",
+			c: "../resources/folder2/c.js",
+			f: "../resources/f.js"
+		});
+
+		$.defer( "../resources/f.js", {
+				myVal: "two",
+				noCache:true
+			})
+			.done( log );
+
+		$.defer.f({
+				myVal: "three",
+				noCache:true
+			})
+			.done( log );
+
+		$.defer.a({
+				myVal: "one",
+				noCache:true
+			})
+			.done(
+				log,
+				function( result ) {
+					log( $.defer.c.result );
+					log( $.defer.e.result || "e not requested" );
+					log( $.defer.f.result );
+				}
+			);
+
+	</script>
+</head>
+<body>
+
+<b>Results:</b> <span id="results"></span>
+
+</body>
+</html>
+

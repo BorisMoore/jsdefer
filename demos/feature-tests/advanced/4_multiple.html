@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
+	<script src="../console-test.js" type="text/javascript"></script>
+
+	<script src="../../../jquery.defer.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+
+		$.deferSettings.delayDomReady = true;
+
+		$.deferDef({
+			d: {
+				url: "../resources/folder2/d.js"
+			}
+		});
+
+		$.defer.d({
+				myVal: "first value"
+			})
+			.done( function( result ) {
+				log( "multiple false. First Call" );
+				log( result );
+			});
+
+		// multiple is false (default value)
+		// Script does not re-execute. Previous value returned
+		$.defer.d({
+				myVal: "second value"
+			})
+			.done( function( result ) {
+				log( "multiple false. Second Call" );
+				log( result );
+			});
+
+		// Redefine script with multiple set to true
+		$.deferDef({
+			d: {
+				url: "../resources/folder2/d.js",
+				multiple: true
+			}
+		});
+
+		$.defer.d({
+				myVal: "first value"
+			})
+			.done( function( result ) {
+				log( "multiple true. First Call" );
+				log( result );
+			});
+
+		// Now multiple is true
+		// Script re-executes, with new parameters and returns new value.
+		$.defer.d({
+				myVal: "second value"
+			})
+			.done( function( result ) {
+				log( "multiple true. Second Call" );
+				log( result );
+			});
+
+
+
+	</script>
+</head>
+<body>
+<b>Results:</b> <span id="results"></span>
+</body>
+</html>
+

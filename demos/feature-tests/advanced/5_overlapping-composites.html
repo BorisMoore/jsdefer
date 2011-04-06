@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
+	<script src="../console-test.js" type="text/javascript"></script>
+
+	<script src="../../../jquery.defer.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+
+		$.deferSettings.delayDomReady = true;
+
+		$.deferDef({
+			c: "../resources/folder2/c.js",
+			d: {
+				url: "../resources/folder2/d.js",
+				multiple: true,
+				depends: "c"
+			},
+			dcf: {
+				url: "../resources/folder2/composite-dcf.js",
+				contains: ["d", "c", "../resources/f.js"]
+			},
+			fed: {
+				url: "../resources/folder2/composite-fed.js",
+				contains: [ "../resources/f.js", "../resources/folder2/e.js", "d" ]
+			}
+		});
+
+		$.defer.dcf( {
+				myVal: "valDCF"
+			})
+			.done( function( components ) {
+				log( "DCF done" );
+				log( components[0] );
+				log( components[1] );
+				log( components[2] );
+			});
+
+		$.defer( "../resources/folder2/c.js", {
+				myVal: "valC"
+			})
+			.done( function( result ) {
+				log( "C done" );
+				log( result );
+			});
+
+		$.defer( "../resources/folder2/d.js", {
+				myVal: "valD"
+			})
+			.done( function( result ) {
+				log( "D done" );
+				log( result );
+			});
+
+		$.defer( "../resources/folder2/d.js", {
+				myVal: "valD2"
+			})
+			.done( function( result ) {
+				log( "D done" );
+				log( result );
+			});
+
+		$.defer( "../resources/folder2/composite-fed.js", {
+				myVal: "valFED"
+			})
+			.done( function( components ) {
+				log( "FED done" );
+				log( components[0] );
+				log( components[1] );
+				log( components[2] );
+			});
+
+	</script>
+</head>
+<body>
+<b>Results:</b> <span id="results"></span>
+</body>
+</html>
+
