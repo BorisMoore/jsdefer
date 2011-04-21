@@ -10,7 +10,8 @@ var $, document = window.document,
 	loadingScripts = [],
 	loadingSubScripts,
 	promiseMethods = "then done fail isResolved isRejected promise".split( " " ),
-	slice = Array.prototype.slice;
+	slice = Array.prototype.slice,
+	sliceDeferred = [].slice;
 
 if ( window.jQuery ) {
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,7 +76,7 @@ if ( window.jQuery ) {
 				// flag to know if the deferred has been cancelled
 				cancelled,
 				// the deferred itself
-				deferred  = {
+				deferred = {
 
 					// done( f1, f2, ...)
 					done: function() {
@@ -108,23 +109,25 @@ if ( window.jQuery ) {
 					// resolve with given context and args
 					resolveWith: function( context, args ) {
 						if ( !cancelled && !fired && !firing ) {
+							// make sure args are available (#8421)
+							args = args || [];
 							firing = 1;
-	//						try {
+							try {
 								while( callbacks[ 0 ] ) {
 									callbacks.shift().apply( context, args );
 								}
-	//						}
-	//						finally {
+							}
+							finally {
 								fired = [ context, args ];
 								firing = 0;
-	//						}
+							}
 						}
 						return this;
 					},
 
 					// resolve with this as context and given arguments
 					resolve: function() {
-						deferred.resolveWith( $.isFunction( this.promise ) ? this.promise() : this, arguments );
+						deferred.resolveWith( this, arguments );
 						return this;
 					},
 
@@ -176,7 +179,7 @@ if ( window.jQuery ) {
 				}
 			} );
 			// Make sure only one callback list will be used
-			deferred.then( failDeferred.cancel, deferred.cancel );
+			deferred.done( failDeferred.cancel ).fail( deferred.cancel );
 			// Unexpose cancel
 			delete deferred.cancel;
 			// Call given func if any
@@ -187,30 +190,40 @@ if ( window.jQuery ) {
 		},
 
 		// Deferred helper
-		when: function( object ) {
-			var index,
-				args = arguments,
+		when: function( firstParam ) {
+			var args = arguments,
+				i = 0,
 				length = args.length,
-				deferred = length <= 1 && object && $.isFunction( object.promise ) ?
-					object :
-					$.Deferred(),
-				promise = deferred.promise(),
-				resolveArray;
-
-			if ( length > 1 ) {
-				resolveArray = new Array( length );
-				for ( index = 0; index < length; index++ ) {
-						$.when( args[index] ).then( function( value ) {
-							resolveArray[ index ] = arguments.length > 1 ? slice.call( arguments, 0 ) : value;
-							if( ! --length ) {
-								deferred.resolveWith( promise, resolveArray );
-							}
-						}, deferred.reject );
+				count = length,
+				deferred = length <= 1 && firstParam && $.isFunction( firstParam.promise ) ?
+					firstParam :
+					$.Deferred();
+			function resolveFunc( i ) {
+				return function( value ) {
+					args[ i ] = arguments.length > 1 ? sliceDeferred.call( arguments, 0 ) : value;
+					if ( !( --count ) ) {
+						// Strange bug in FF4:
+						// Values changed onto the arguments object sometimes end up as undefined values
+						// outside the $.when method. Cloning the object into a fresh array solves the issue
+						deferred.resolveWith( deferred, sliceDeferred.call( args, 0 ) );
 					}
-			} else if ( deferred !== object ) {
-				deferred.resolve( object );
+				};
 			}
-			return promise;
+			if ( length > 1 ) {
+				for( ; i < length; i++ ) {
+					if ( args[ i ] && $.isFunction( args[ i ].promise ) ) {
+						args[ i ].promise().then( resolveFunc(i), deferred.reject );
+					} else {
+						--count;
+					}
+				}
+				if ( !count ) {
+					deferred.resolveWith( deferred, args );
+				}
+			} else if ( deferred !== firstParam ) {
+				deferred.resolveWith( deferred, length ? [ firstParam ] : [] );
+			}
+			return deferred.promise();
 		}
 	});
 
