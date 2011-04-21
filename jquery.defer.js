@@ -14,8 +14,7 @@ function absUrl( basePath, url ) {
 	if ( url.indexOf( "://") === -1 ) {
 		url = basePath + url;
 	}
-	anchor.href = url;
-	return anchor.href.toLowerCase();
+	return anchor.href = url;
 //	For IE without DOCTYPE - need use recursive regex along lines:	parts = url.split( "/../" ); parts[0] = parts[0].slice( 0, parts[0].lastIndexOf("/") + 1 ); Use recursive regex; return parts.join("").toLowerCase();
 }
 
@@ -43,14 +42,16 @@ function normalize( items, basePath ) {
 }
 
 function getScriptDef( name, thisUrl ) {
-	var scriptDef = defer[ name ];
+	var thisUrlKey,
+		scriptDef = defer[ name ];
+	
 	if ( scriptDef ) {
 		return scriptDef;
 	}
 
 	thisUrl = absUrl( getBasePath( thisUrl || "" ), name );
-
-	return scriptByUrl[ thisUrl ] || (scriptByUrl[ thisUrl ] = { url: thisUrl });
+	thisUrlKey = thisUrl.toLowerCase();
+	return scriptByUrl[ thisUrlKey ] || (scriptByUrl[ thisUrlKey ] = { url: thisUrl });
 }
 
 $.extend({
