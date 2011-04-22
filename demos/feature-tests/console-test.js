@@ -1,9 +1,11 @@
 var testloaded = {};
 
 function log( message ) {
-	var console = document.getElementById("results");
-	var log = console.innerHTML;
-	console.innerHTML = log + "<br/>" + message;
+	var log, console = document.getElementById("results");
+	if ( console ) {
+		log = console.innerHTML;
+		console.innerHTML = log + "<br/>" + message;
+	}
 }
 
 $( function() {

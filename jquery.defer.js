@@ -1,7 +1,7 @@
 // This is jquery.defer.js: The jQuery plugin version of JsDefer
 // (If you want the jQuery-independent version of JsDefer, use JsDefer.js).
 
-(function( $, window, undefined ) {
+jQuery.defer || (function( $, window, undefined ) {
 
 var document = window.document,
 	anchor = document.createElement("a"),
