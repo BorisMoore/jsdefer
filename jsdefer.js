@@ -10,8 +10,7 @@ var $, document = window.document,
 	loadingScripts = [],
 	loadingSubScripts,
 	promiseMethods = "then done fail isResolved isRejected promise".split( " " ),
-	slice = Array.prototype.slice,
-	sliceDeferred = [].slice;
+	slice = [].slice;
 
 if ( window.jQuery ) {
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -200,12 +199,12 @@ if ( window.jQuery ) {
 					$.Deferred();
 			function resolveFunc( i ) {
 				return function( value ) {
-					args[ i ] = arguments.length > 1 ? sliceDeferred.call( arguments, 0 ) : value;
+					args[ i ] = arguments.length > 1 ? slice.call( arguments, 0 ) : value;
 					if ( !( --count ) ) {
 						// Strange bug in FF4:
 						// Values changed onto the arguments object sometimes end up as undefined values
 						// outside the $.when method. Cloning the object into a fresh array solves the issue
-						deferred.resolveWith( deferred, sliceDeferred.call( args, 0 ) );
+						deferred.resolveWith( deferred, slice.call( args, 0 ) );
 					}
 				};
 			}
@@ -253,17 +252,6 @@ if ( window.jQuery ) {
 		head.insertBefore( script, head.firstChild );
 		return deferred;
 	};
-
-	function domReady() {
-		if ( !document.body ) {
-			return setTimeout( function() {
-				domReady();
-			}, 1 );
-		}
-		$.isReady = true;
-		ready( true );
-	}
-	domReady();
 }
 
 
@@ -271,7 +259,7 @@ if ( window.jQuery ) {
 // The following code is identical to the corresponding code in jquery.defer.js
 
 function absUrl( basePath, url ) {
-	if ( url.indexOf( "://") === -1 ) {
+	if ( url.indexOf( "://" ) === -1 ) {
 		url = basePath + url;
 	}
 	return anchor.href = url;
@@ -304,7 +292,7 @@ function normalize( items, basePath ) {
 function getScriptDef( name, thisUrl ) {
 	var thisUrlKey,
 		scriptDef = defer[ name ];
-	
+
 	if ( scriptDef ) {
 		return scriptDef;
 	}
@@ -425,7 +413,7 @@ $.extend({
 							reject();
 						}
 						// Non-wrapped script
-						if ( jQuery && $ !== jQuery ) {
+						if ( window.jQuery && $ !== jQuery ) {
 							// Special case: jQuery has been loaded dynamically by JsDefer, so switch to plugin version of JsDefer
 							$ = jQuery.extend({
 								defer: defer,
@@ -585,4 +573,16 @@ ready = $.ready;
 readyList = $.Deferred();
 readyList.promise( ready );
 
+if ( !window.jQuery ) {
+	function domReady() {
+		if ( !document.body ) {
+			return setTimeout( function() {
+				domReady();
+			}, 1 );
+		}
+		$.isReady = true;
+		$.ready( true );
+	}
+	domReady();
+}
 })( window );

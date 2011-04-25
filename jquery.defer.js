@@ -11,7 +11,7 @@ var document = window.document,
 	loadingSubScripts;
 
 function absUrl( basePath, url ) {
-	if ( url.indexOf( "://") === -1 ) {
+	if ( url.indexOf( "//" ) === -1 ) {
 		url = basePath + url;
 	}
 	return anchor.href = url;
@@ -44,7 +44,7 @@ function normalize( items, basePath ) {
 function getScriptDef( name, thisUrl ) {
 	var thisUrlKey,
 		scriptDef = defer[ name ];
-	
+
 	if ( scriptDef ) {
 		return scriptDef;
 	}
