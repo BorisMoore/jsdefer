@@ -9,7 +9,7 @@ var $, document = window.document,
 	scriptByUrl = {},
 	loadingScripts = [],
 	loadingSubScripts,
-	promiseMethods = "then done fail isResolved isRejected promise".split( " " ),
+	promiseMethods = "then done fail state promise".split( " " ),
 	slice = [].slice;
 
 if ( window.jQuery ) {
@@ -26,7 +26,7 @@ if ( window.jQuery ) {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// jQuery is not loaded. Make $ the jsDefer object
 
-	// Use a 'clone' of the implementation of Deferred from jQuery-1.5.js
+	// Use a 'clone' of the implementation of Deferred from jQuery-1.10.0.js
 	// to provide identical Deferred APIs and behavior to jQuery.
 
 	// Also provide simplified support for $.extend, DomReady and AJAX x-domain requests,

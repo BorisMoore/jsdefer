@@ -1,3 +1,17 @@
+# JsDefer recent Status:
+
+There have been some breaking changes in jQuery APIs for Deferred since JsDefer was implemented.
+
+A recent JsDefer commit modifies jquery.defer.js to make it agains compatible with current 
+jQuery APIs.
+
+However the non-jquery version of JsDefer - jsdefer.js - uses the previous Deferred APIs, 
+which means that you cannot currently load jsdefer.js and then have it load jQuery! 
+You need to determine up front whether you want the version with or without jQuery...
+
+Apart from the above fixes, JsDefer is not being actively updated at the moment, but will 
+probably become active again at some point after JsViews V1.0 has shipped.
+ 
 # JsDefer Features:
 
 * Wrapped scripts
@@ -29,16 +43,16 @@ are provided to illustrate different use scenarios for JsDefer.
 ### Feature tests:
 
 * Basic Features: Currently no unit tests are provided (they will come) but the
-[FeatureTests/Basic](https://github.com/BorisMoore/jsdefer/tree/master/demos/featuretests/basic)
+[FeatureTests/Basic](https://github.com/BorisMoore/jsdefer/tree/master/demos/feature-tests/basic)
 folder provides some examples for testing different feature details.
 * Advanced Features:
-[This folder](https://github.com/BorisMoore/jsdefer/tree/master/demos/featuretests/withorwithoutjquery)
+[This folder](https://github.com/BorisMoore/jsdefer/tree/master/demos/featuretests/with-or-without-jquery)
 shows how to use JsDefer with or without jQuery.
-[These samples](https://github.com/BorisMoore/jsdefer/tree/master/demos/featuretests/advanced)
+[These samples](https://github.com/BorisMoore/jsdefer/tree/master/demos/feature-tests/advanced)
 illustrate some less-commonly used features.
-The [AsyncTemplates](https://github.com/BorisMoore/jsdefer/tree/master/demos/featuretests/advanced/asynctemplates)
+The [AsyncTemplates](https://github.com/BorisMoore/jsdefer/tree/master/demos/feature-tests/advanced/async-templates)
 folder explores some experimental integration with
-[jQuery Templates](https://github.com/jquery/jquery-tmpl).
+[jQuery Templates](https://github.com/BorisMoore/jquery-tmpl).
 
 
 ## Syntax Examples:

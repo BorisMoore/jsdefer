@@ -81,7 +81,7 @@ $.extend({
 			var i, thisRunCb = runCb || scriptDef.runCb; // For multiple or composite scripts, callback was passed via scriptDef
 
 			if ( !(runWait--) ) {
-				if ( !asyncLoad.isRejected() ) {
+				if ( asyncLoad.state() !== "rejected" ) {
 					if ( parentPromise ) {
 						asyncLoad.resolve(
 							result ||
@@ -311,15 +311,6 @@ window.$deferRun = function( run, settings ) {
 deferSettings = $.deferSettings;
 defer = $.defer;
 ready = $.ready;
-
-readyDefer = $.Deferred();
-readyDefer.promise( ready );
-
-// Workaround, to expose domReady promise
-// (only needed because the Dom Ready promise is not exposed by core).
-$( function() {
-	readyDefer.resolve();
-});
 
 })( jQuery, window );
 
