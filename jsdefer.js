@@ -1,5 +1,14 @@
-// This is jsdefer.js: The jQuery-independent version of JsDefer
-// (If you want the jQuery plugin version of JsDefer, use jquery.defer.js).
+/*! JsDefer v1.0.0-alpha: http://github.com/BorisMoore/jsdefer and http://jsviews.com/jsviews */
+/*
+* Script loader, using the 'Deferred' pattern for async operations
+* Two versions:
+* - jsdefer.js (this file): the jQuery-independent version of JsDefer
+* - jquery.defer.js: the jQuery plugin version of JsDefer
+* Copyright 2013, Boris Moore
+* Released under the MIT License.
+*/
+
+// This is jsdefer.js: the jQuery-independent version of JsDefer
 
 window.jsDefer || window.jQuery && jQuery.defer || (function( window, undefined ) {
 
